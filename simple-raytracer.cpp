@@ -41,6 +41,36 @@ public:
     return im[_r][_c];
   }
 
+  void normalize() {
+    color lowest{inf,inf,inf}, highest{-inf,-inf,-inf};
+    for ( int _r = 0 ; _r < r ; _r++ ) {
+      for ( int _c = 0 ; _c < c ; _c++ ) {
+	color l = getpixel(_r, _c);
+	if ( l.r < lowest.r ) lowest.r = l.r;
+	if ( l.g < lowest.g ) lowest.g = l.g;
+	if ( l.b < lowest.b ) lowest.b = l.b;
+	if ( l.r > highest.r ) highest.r = l.r;
+	if ( l.g > highest.g ) highest.g = l.g;
+	if ( l.b > highest.b ) highest.b = l.b;
+      }
+    }
+    color mult{highest.r - lowest.r,
+               highest.g - lowest.g,
+               highest.b - lowest.b};
+    if (mult.r <= 0) mult.r = 1; // any strictly positive value suffices
+    if (mult.g <= 0) mult.g = 1; // since this is only used to prevent a
+    if (mult.b <= 0) mult.b = 1; // zero divide when all values are same
+    for ( int _r = 0 ; _r < r ; _r++ ) {
+      for ( int _c = 0 ; _c < c ; _c++ ) {
+	color l = getpixel(_r, _c);
+	l.r = (l.r - lowest.r) / mult.r;
+	l.g = (l.g - lowest.g) / mult.g;
+	l.b = (l.b - lowest.b) / mult.b;
+	putpixel(_r, _c, l);
+      }
+    }
+  }
+
   void save_to_ppm(string filename) {
     ofstream ofile(filename.c_str());
 
@@ -246,6 +276,7 @@ int main() {
       im.putpixel(r, c, shoot_ray(eye, screen_point));
     }
   }
+  im.normalize();
   im.save_to_ppm("x.ppm");
   cleanup_world();
 }
