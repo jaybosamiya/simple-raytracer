@@ -167,14 +167,14 @@ public:
 vector<WorldObject*> world;
 
 void initialize_world() {
-  world.push_back(new Sphere{Vector{-1, -1, 4.5}, 4, color(1, 0, 0)});
-  world.push_back(new Sphere{Vector{1, -1, 5}, 4, color(0, 1, 0)});
-  world.push_back(new Sphere{Vector{1, 1, 5.5}, 4, color(0, 0, 1)});
+  world.push_back(new Sphere{Vector{0, -300, 1200}, 200, color(1, 0, 0)});
+  world.push_back(new Sphere{Vector{-80, -150, 1200}, 200, color(0, 1, 0)});
+  world.push_back(new Sphere{Vector{70, -100, 1200}, 200, color(0, 0, 1)});
 
-  for ( int k = 0 ; k < 40 ; k++ ) {
-    for ( int x = -5 ; x <= 5 ; x++ ) {
+  for ( int z = 2 ; z <= 7 ; z++ ) {
+    for ( int x = -2 ; x <= 2 ; x++ ) {
       world.push_back(new Sphere{
-	  Vector{(double)x, 5, k * 0.5}, 0.5, color(1, 1, 1)});
+	  Vector{200. * x, 300, 400. * z}, 40, color(1, 1, 1)});
     }
   }
 }
@@ -189,13 +189,13 @@ void cleanup_world() {
 
 /* Global constants */
 
-const Vector eye { 0, 0, -5 };
+const Vector eye { 0, 0, -200 };
 const Vector screen_center {0,0,0};
-const int width = 10, height = 10;
+const int width = 100, height = 100;
 const int max_x = width / 2;
 const int max_y = height / 2;
 
-const int resolution = 100;
+const int resolution = 10;
 
 color shoot_ray(Vector from, Vector to) {
   Ray ray{from, (to-from).unit(), color{1,1,1}};
