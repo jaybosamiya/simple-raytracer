@@ -14,6 +14,9 @@ struct color {
   double r, g, b;
   color(double r, double g, double b) : r(r), g(g), b(b) {}
   color() : r(0), g(0), b(0) {}
+  color operator* (const double &x) const {
+    return color{r*x, g*x, b*x};
+  }
 };
 
 class Image {
@@ -147,11 +150,10 @@ public:
 
     double cosTheta = fabs(n.dot(d)); // for unit vectors, but n and d are unit
 
-    double dist_drop = 25 / square((y - s).length());
     color res{
-      dist_drop * cosTheta * col.r * ray.l.r,
-      dist_drop * cosTheta * col.g * ray.l.g,
-      dist_drop * cosTheta * col.b * ray.l.b,
+      cosTheta * col.r * ray.l.r,
+      cosTheta * col.g * ray.l.g,
+      cosTheta * col.b * ray.l.b,
     };
 
     return make_pair(true, make_pair(y, res));
@@ -215,8 +217,10 @@ color shoot_ray(Vector from, Vector to) {
   if ( ! hit_somewhere ) {
     best_color = color(0, 0, 0);
   }
+
+  double dist_drop = 25 / square((best_intersection - from).length());
   
-  return best_color;
+  return best_color * dist_drop;
 }
 
 int main() {
