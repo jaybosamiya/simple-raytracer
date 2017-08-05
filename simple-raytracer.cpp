@@ -146,10 +146,12 @@ public:
     Vector n = (y - c).unit();	// normal surface
 
     double cosTheta = fabs(n.dot(d)); // for unit vectors, but n and d are unit
+
+    double dist_drop = 25 / square((y - s).length());
     color res{
-      cosTheta * col.r * ray.l.r,
-      cosTheta * col.g * ray.l.g,
-      cosTheta * col.b * ray.l.b,
+      dist_drop * cosTheta * col.r * ray.l.r,
+      dist_drop * cosTheta * col.g * ray.l.g,
+      dist_drop * cosTheta * col.b * ray.l.b,
     };
 
     return make_pair(true, make_pair(y, res));
@@ -162,6 +164,12 @@ void initialize_world() {
   world.push_back(new Sphere{Vector{-1, -1, 4.5}, 4, color(1, 0, 0)});
   world.push_back(new Sphere{Vector{1, -1, 5}, 4, color(0, 1, 0)});
   world.push_back(new Sphere{Vector{1, 1, 5.5}, 4, color(0, 0, 1)});
+
+  for ( int k = 0 ; k < 10 ; k++ ) {
+    for ( int x = -5 ; x <= 5 ; x++ ) {
+      world.push_back(new Sphere{Vector{(double)x, 5, k * 0.5}, 0.5, color(1, 1, 1)});
+    }
+  }
 };
 
 void cleanup_world() {
