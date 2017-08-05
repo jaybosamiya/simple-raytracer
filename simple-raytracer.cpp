@@ -137,7 +137,16 @@ struct Ray {
   color l;
 };
 
-typedef pair<bool, pair<Vector, color> > intersection;
+struct intersection {
+  bool happened;
+  Vector where;
+  color col;
+  intersection() : happened(false) {}
+  intersection(Vector where, color col) :
+    happened(true), where(where), col(col) {}
+};
+
+const intersection no_intersection = intersection();
 
 class WorldObject {
 public:
@@ -169,7 +178,7 @@ public:
     double det = square(v.dot(d)) - (v.dot(v) - square(r));
     
     if ( det < 0 ) // can't have intersection
-      return make_pair(false, make_pair(Vector(), color()));
+      return no_intersection;
 
     double dets = sqrt(det);
     double z = -(v.dot(d));
@@ -190,7 +199,7 @@ public:
       cosTheta * col.b * ray.l.b,
     };
 
-    return make_pair(true, make_pair(y, res));
+    return intersection(y, res);
   }
 };
 
@@ -238,18 +247,15 @@ color shoot_ray(Vector from, Vector to) {
 	it++ ) {
     WorldObject* wo = *it;
     intersection i = wo->intersect(ray);
-    bool did_intersect = i.first;
-    Vector where_intersect = i.second.first;
-    color color_intersect = i.second.second;
     
-    if ( ! did_intersect ) // no intersection, ignore
+    if ( ! i.happened ) // no intersection, ignore
       continue;
 
     hit_somewhere = true;
-    if ( (where_intersect   - from).length() <
+    if ( (i.where           - from).length() <
 	 (best_intersection - from).length() ) {
-      best_intersection = where_intersect;
-      best_color = color_intersect;
+      best_intersection = i.where;
+      best_color        = i.col;
     }
   }
 
