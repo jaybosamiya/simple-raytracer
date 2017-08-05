@@ -112,6 +112,7 @@ typedef pair<bool, pair<Vector, color> > intersection;
 class WorldObject {
 public:
   virtual intersection intersect(Ray) const = 0;
+  virtual ~WorldObject() {}
   // (is it intersecting, (where it intersected, color of intersection))
 };
 
