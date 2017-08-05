@@ -173,7 +173,7 @@ void initialize_world() {
       world.push_back(new Sphere{Vector{(double)x, 5, k * 0.5}, 0.5, color(1, 1, 1)});
     }
   }
-};
+}
 
 void cleanup_world() {
   int len = world.size();
