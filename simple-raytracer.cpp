@@ -141,9 +141,10 @@ struct intersection {
   bool happened;
   Vector where;
   color col;
+  Ray refl;
   intersection() : happened(false) {}
-  intersection(Vector where, color col) :
-    happened(true), where(where), col(col) {}
+  intersection(Vector where, color col, Ray refl) :
+    happened(true), where(where), col(col), refl(refl) {}
 };
 
 const intersection no_intersection = intersection();
@@ -190,6 +191,8 @@ public:
     Vector y = s + d * t;	// point of intersection
     Vector n = (y - c).unit();	// normal surface
 
+    Vector r = d - n * (2 * n.dot(d)); // reflected ray direction
+
     double cosTheta = fabs(n.dot(d)); // for unit vectors, but n and d
 				      // are unit
 
@@ -199,7 +202,11 @@ public:
       cosTheta * col.b * ray.l.b,
     };
 
-    return intersection(y, res);
+    color reflected_col = res; // temporary, until I add reflectance and stuff
+
+    Ray refl{y, r, reflected_col};
+
+    return intersection(y, res, refl);
   }
 };
 
