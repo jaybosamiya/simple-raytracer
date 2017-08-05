@@ -1,4 +1,5 @@
 simple-raytracer
+*.ppm
 
 # Created by https://www.gitignore.io/api/vim,c++,linux,emacs
 
