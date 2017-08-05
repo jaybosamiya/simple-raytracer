@@ -113,7 +113,8 @@ class WorldObject {
 public:
   virtual intersection intersect(Ray) const = 0;
   virtual ~WorldObject() {}
-  // (is it intersecting, (where it intersected, color of intersection))
+  // (is it intersecting, (where it intersected, color of
+  // intersection))
 };
 
 inline double square(double a) {
@@ -126,7 +127,8 @@ private:
   double r;
   color col;
 public:
-  Sphere(Vector pos, double radius, color l) : centre(pos), r(radius), col(l) {}
+  Sphere(Vector pos, double radius, color l) :
+    centre(pos), r(radius), col(l) {}
   intersection intersect(Ray ray) const {
     Vector c = centre;
     Vector s = ray.pt;
@@ -149,7 +151,8 @@ public:
     Vector y = s + d * t;	// point of intersection
     Vector n = (y - c).unit();	// normal surface
 
-    double cosTheta = fabs(n.dot(d)); // for unit vectors, but n and d are unit
+    double cosTheta = fabs(n.dot(d)); // for unit vectors, but n and d
+				      // are unit
 
     color res{
       cosTheta * col.r * ray.l.r,
@@ -170,7 +173,8 @@ void initialize_world() {
 
   for ( int k = 0 ; k < 40 ; k++ ) {
     for ( int x = -5 ; x <= 5 ; x++ ) {
-      world.push_back(new Sphere{Vector{(double)x, 5, k * 0.5}, 0.5, color(1, 1, 1)});
+      world.push_back(new Sphere{
+	  Vector{(double)x, 5, k * 0.5}, 0.5, color(1, 1, 1)});
     }
   }
 }
@@ -199,7 +203,9 @@ color shoot_ray(Vector from, Vector to) {
   bool hit_somewhere = false;
   Vector best_intersection{inf, inf, inf};
   color best_color;
-  for ( vector<WorldObject*>::iterator it = world.begin() ; it != world.end() ; it++ ) {
+  for ( vector<WorldObject*>::iterator it = world.begin() ;
+	it != world.end() ;
+	it++ ) {
     WorldObject* wo = *it;
     intersection i = wo->intersect(ray);
     bool did_intersect = i.first;
@@ -210,7 +216,8 @@ color shoot_ray(Vector from, Vector to) {
       continue;
 
     hit_somewhere = true;
-    if ( (where_intersect - from).length() < (best_intersection - from).length() ) {
+    if ( (where_intersect   - from).length() <
+	 (best_intersection - from).length() ) {
       best_intersection = where_intersect;
       best_color = color_intersect;
     }
@@ -220,7 +227,9 @@ color shoot_ray(Vector from, Vector to) {
     best_color = color(0, 0, 0);
   }
 
-  double dist_drop = square((screen_center - eye).length()) / square((best_intersection - from).length());
+  double dist_drop =
+    square((screen_center     - eye ).length()) /
+    square((best_intersection - from).length());
   
   return best_color * dist_drop;
 }
