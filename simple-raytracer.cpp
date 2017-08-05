@@ -257,9 +257,7 @@ color shoot_ray(Vector from, Vector to) {
     best_color = color(0, 0, 0);
   }
 
-  double dist_drop =
-    square((screen_center     - eye ).length()) /
-    square((best_intersection - from).length());
+  double dist_drop = 1/square((best_intersection - from).length());
   
   return best_color * dist_drop;
 }
