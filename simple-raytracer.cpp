@@ -186,6 +186,7 @@ void cleanup_world() {
 /* Global constants */
 
 const Vector eye { 0, 0, -5 };
+const Vector screen_center {0,0,0};
 const int width = 10, height = 10;
 const int max_x = width / 2;
 const int max_y = height / 2;
@@ -219,7 +220,7 @@ color shoot_ray(Vector from, Vector to) {
     best_color = color(0, 0, 0);
   }
 
-  double dist_drop = 25 / square((best_intersection - from).length());
+  double dist_drop = square((screen_center - eye).length()) / square((best_intersection - from).length());
   
   return best_color * dist_drop;
 }
