@@ -165,7 +165,7 @@ void initialize_world() {
   world.push_back(new Sphere{Vector{1, -1, 5}, 4, color(0, 1, 0)});
   world.push_back(new Sphere{Vector{1, 1, 5.5}, 4, color(0, 0, 1)});
 
-  for ( int k = 0 ; k < 10 ; k++ ) {
+  for ( int k = 0 ; k < 40 ; k++ ) {
     for ( int x = -5 ; x <= 5 ; x++ ) {
       world.push_back(new Sphere{Vector{(double)x, 5, k * 0.5}, 0.5, color(1, 1, 1)});
     }
