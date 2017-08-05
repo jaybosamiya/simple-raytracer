@@ -201,7 +201,7 @@ void initialize_world() {
   world.push_back(new Sphere{Vector{-80, -150, 1200}, 200, color(0, 1, 0)});
   world.push_back(new Sphere{Vector{70, -100, 1200}, 200, color(0, 0, 1)});
 
-  for ( int z = 2 ; z <= 7 ; z++ ) {
+  for ( int z = 3 ; z <= 8 ; z++ ) {
     for ( int x = -2 ; x <= 2 ; x++ ) {
       world.push_back(new Sphere{
 	  Vector{200. * x, 300, 400. * z}, 40, color(1, 1, 1)});
