@@ -2,6 +2,10 @@
 
 > A simple raytracer written in C++
 
+## Show me a sample image!
+
+![expected-result](expected-result.png)
+
 ## Quickstart
 
 Run `make`, and `./simple-raytracer` to generate a `x.ppm` file, and look at it through, for example `eog`
